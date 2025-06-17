@@ -50,7 +50,7 @@ def check_bound(rct: pg.Rect) -> tuple[bool, bool]:
     """
     引数：こうかとんRectまたは爆弾Rect
     戻り値：横方向，縦方向の画面内外判定結果
-    画面内ならTrue，画面外ならFalse
+    画面内ならTrue,画面外ならFalse
     """
     yoko, tate = True, True  # 初期値：画面内
     if rct.left < 0 or WIDTH < rct.right:  # 横方向の画面外判定
@@ -91,7 +91,7 @@ def main():
     kk_img_base = pg.transform.rotozoom(pg.image.load("fig/3.png"), 0, 0.9)
     kk_img = kk_img_base.copy()
     kk_rct = kk_img.get_rect()
-    kk_rct.center = 300, 200
+    kk_rct.center = 300,200
     bb_imgs, sbb_accs = init_bb_imgs()
     bb_rct = bb_imgs[0].get_rect()
     bb_rct.centerx = random.randint(0, WIDTH)
