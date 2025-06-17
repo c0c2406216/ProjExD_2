@@ -82,6 +82,7 @@ def get_kk_img(sum_mv: tuple[int, int], base_img: pg.Surface) -> pg.Surface:
     angle = direction_map.get(key, 0)  # 該当しない場合は右（0度）
     return pg.transform.rotate(base_img, angle)
 
+
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))
