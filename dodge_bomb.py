@@ -2,7 +2,7 @@ import os
 import random 
 import sys
 import pygame as pg
-
+import time
 
 WIDTH, HEIGHT = 1100, 650
 DELTA = { #移動量辞書
@@ -12,6 +12,26 @@ DELTA = { #移動量辞書
     pg.K_RIGHT:(+5,0),
 }
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
+def write_gameover_screen(screen: pg.Surface):#ゲームオーバー画面
+    blackout = pg.Surface((WIDTH, HEIGHT))
+    blackout.set_alpha(150)
+    pg.draw.rect(blackout, (0, 0, 0), (0, 0, WIDTH, HEIGHT))
+    screen.blit(blackout, (0, 0))
+    go_img = pg.image.load("fig/8.png")
+    go_img = pg.transform.rotozoom(go_img, 0, 0.9)
+    go_rct_left = go_img.get_rect()
+    go_rct_right = go_img.get_rect()
+    go_rct_left.midright = (WIDTH // 2 - 200, HEIGHT // 2)
+    go_rct_right.midleft = (WIDTH // 2 + 200, HEIGHT // 2)
+    screen.blit(go_img, go_rct_left)
+    screen.blit(go_img, go_rct_right)
+    font = pg.font.SysFont(None, 100)
+    text = font.render("Game Over", True, (255, 255, 255))
+    text_rect = text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
+    screen.blit(text, text_rect)
+    pg.display.update()
+    time.sleep(5)
 
 
 def check_bound(rct:pg.Rect) -> tuple[bool,bool]:
@@ -48,7 +68,7 @@ def main():
             if event.type == pg.QUIT: 
                 return
         if kk_rct.colliderect(bb_rct):  # こうかとんRectと爆弾Rectの衝突判定
-            print("ゲームオーバー")
+            write_gameover_screen(screen)
             return
         screen.blit(bg_img, [0, 0]) 
 
@@ -69,6 +89,8 @@ def main():
         kk_rct.move_ip(sum_mv)
         if check_bound(kk_rct) != (True,True):
             kk_rct.move_ip(-sum_mv[0],-sum_mv[1])#移動を無かったことにする
+        
+
         screen.blit(kk_img, kk_rct)
         bb_rct.move_ip(vx,vy) #爆弾の移動
         yoko,tate = check_bound(bb_rct)
